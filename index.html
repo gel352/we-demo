@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>微信聊天室</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- 登录页面 -->
+    <div class="page login-page active" id="loginPage">
+        <div class="login-container">
+            <div class="login-title">微信聊天室登录</div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">用户名</label>
+                    <input type="text" class="form-input" id="usernameInput" placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">服务器地址</label>
+                    <input type="text" class="form-input" id="serverInput" placeholder="ws://localhost:8080" required>
+                </div>
+                <button type="submit" class="login-button" id="loginButton">登录</button>
+            </form>
+            <div class="server-info">
+                <div><strong>局域网访问提示：</strong></div>
+                <div>1. 确保服务器在同一局域网运行</div>
+                <div>2. 将 localhost 替换为服务器IP地址</div>
+                <div>3. 例如: ws://192.168.1.100:8080</div>
+                <div class="connection-url" id="connectionUrl" style="display: none;">
+                    <strong>🔗 当前局域网连接地址：</strong>
+                    <span id="lanConnectionUrl"></span>
+                    <button class="copy-button" onclick="copyConnectionUrl()">复制地址</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 聊天列表页 -->
+    <div class="page chat-list-page" id="chatListPage">
+        <div class="header">
+            <div class="header-title">
+                微信聊天室
+                <span class="title-tag" id="userTypeTag">type=</span>
+            </div>
+            <div class="header-actions">
+                <i class="fas fa-plus" id="addFriendButton"></i>
+                <i class="fas fa-search" id="searchButton"></i>
+            </div>
+        </div>
+
+        <!-- 用户信息面板 -->
+        <div class="user-info-panel">
+            <div class="user-avatar-large">
+                <span id="currentUserAvatar">我</span>
+            </div>
+            <div class="user-details">
+                <div class="user-name" id="currentUserName">未登录</div>
+                <div class="user-id">ID: <span id="currentUserId">-</span></div>
+            </div>
+        </div>
+
+        <!-- 在线用户面板 -->
+        <div class="online-users-panel" id="onlineUsersPanel">
+            <div class="online-users-header">
+                <span>在线用户</span>
+                <span class="online-count" id="onlineCount">0人在线</span>
+            </div>
+            <div class="online-users-list" id="onlineUsersList">
+                <div class="empty-online-users">
+                    <i class="fas fa-users"></i>
+                    <div>等待连接...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-list" id="chatList">
+            <div class="empty-chat-list">
+                <i class="far fa-comments"></i>
+                <div>暂无聊天记录</div>
+                <div class="empty-hint">从在线用户中选择一个开始聊天</div>
+            </div>
+        </div>
+
+        <div class="tab-bar">
+            <div class="tab-item active">
+                <i class="fas fa-comment"></i>
+                <span>微信</span>
+            </div>
+            <div class="tab-item">
+                <i class="fas fa-address-book"></i>
+                <span>通讯录</span>
+            </div>
+            <div class="tab-item">
+                <i class="fas fa-compass"></i>
+                <span>发现</span>
+            </div>
+            <div class="tab-item">
+                <i class="fas fa-user"></i>
+                <span>我</span>
+            </div>
+        </div>
+
+        <div class="connection-status">
+            <div class="status-indicator status-disconnected" id="statusIndicator"></div>
+            <span id="statusText">未连接</span>
+        </div>
+    </div>
+
+    <!-- 聊天页 -->
+    <div class="page chat-page" id="chatPage">
+        <div class="header">
+            <div class="header-back" id="backButton">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="header-title" id="chatTitle">聊天</div>
+            <div class="header-actions">
+                <i class="fas fa-phone-alt"></i>
+                <i class="fas fa-ellipsis-v"></i>
+            </div>
+        </div>
+
+        <div class="messages-container" id="messagesContainer">
+            <div class="empty-chat-list">
+                <i class="far fa-comments"></i>
+                <div>选择一个对话开始聊天</div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <div class="input-actions">
+                <i class="fas fa-smile input-action"></i>
+                <i class="fas fa-plus input-action"></i>
+            </div>
+            <textarea class="message-input" id="messageInput" placeholder="输入消息..."></textarea>
+            <button class="send-button" id="sendButton">发送</button>
+        </div>
+    </div>
+
+    <!-- 联系人页 -->
+    <div class="page contacts-page" id="contactsPage">
+        <div class="header">
+            <div class="header-back" id="contactsBackButton">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="header-title">通讯录</div>
+            <div class="header-actions">
+                <i class="fas fa-user-plus"></i>
+            </div>
+        </div>
+
+        <div class="contacts-list" id="contactsList">
+            <div class="empty-chat-list">
+                <i class="fas fa-address-book"></i>
+                <div>暂无联系人</div>
+                <div class="empty-hint">在线用户将显示在这里</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
