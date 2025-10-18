@@ -21,3 +21,6 @@ cd server
  显示服务器已开启，说明可以用
 
  推荐用这个vscode插件[Live Server (Five Server)](https://marketplace.visualstudio.com/items/?itemName=yandeu.five-server)来运行前端页面
+
+ ## 局域网
+使用这个插件后，下方控制台有个192.**.*.*:5500，这个就是局域网地址，可以在手机上打开，也可以在电脑上打开，然后输入这个地址就可以访问了
