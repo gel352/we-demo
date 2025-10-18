@@ -20,4 +20,4 @@ cd server
  ```
  显示服务器已开启，说明可以用
 
- 推荐用这个vscode插件[Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)来运行前端页面
+ 推荐用这个vscode插件[Live Server (Five Server)](https://marketplace.visualstudio.com/items/?itemName=yandeu.five-server)来运行前端页面
