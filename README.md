@@ -6,7 +6,7 @@
 ```
 npm install ws uuid
 ```
-注意请在<h1 style="color:red">server</h1>目录下, 打开终端输入
+注意请在<h1 color="red">server</h1>目录下, 打开终端输入
 
 ```
 cd server
